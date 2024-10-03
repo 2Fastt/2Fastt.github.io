@@ -1,5 +1,5 @@
 ---
-title: Yet Another Sample Page
+title: Cicada
 published: true
 ---
 
