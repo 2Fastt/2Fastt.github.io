@@ -1,9 +1,15 @@
 title: Hacker-Blog
 description: "A Jekyll Blog Theme For Hackers"
 author:
+<<<<<<< HEAD
   name: "2Fastt"
   email: "nachocarrillo0512@gmail.com"
   url: "https://2fastt.github.io/"
+=======
+  name: "SomeHacker"
+  email: "someone@somewebsite.somedomain"
+  url: "https://ashishchaudhary.in/hacker-blog"
+>>>>>>> a0d9d6cf12d2d5800fba1df33fb5ea1b09fbfc31
 
 baseurl: /
 
@@ -28,5 +34,10 @@ plugins:
   - jekyll-sitemap
 
 # Custom variables
+<<<<<<< HEAD
 owner : "2Fastt"
 year : "2024"
+=======
+owner : "SomeHacker"
+year : "2020"
+>>>>>>> a0d9d6cf12d2d5800fba1df33fb5ea1b09fbfc31
