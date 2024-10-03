@@ -1,12 +1,10 @@
-title: Hacker-Blog
+title: 2Fastt's Write-Ups
 description: "A Jekyll Blog Theme For Hackers"
 author:
   name: "2Fastt"
   email: "nachocarrillo0512@gmail.com"
   url: "https://2fastt.github.io/"
-  name: "SomeHacker"
-  email: "someone@somewebsite.somedomain"
-  url: "https://ashishchaudhary.in/hacker-blog"
+
 
 baseurl: /
 
@@ -33,5 +31,4 @@ plugins:
 # Custom variables
 owner : "2Fastt"
 year : "2024"
-owner : "SomeHacker"
-year : "2020"
+
