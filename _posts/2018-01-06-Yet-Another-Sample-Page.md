@@ -1,6 +1,6 @@
 ---
 title: Cicada
-published: 03 Oct 2024
+
 ---
 * * *
 
