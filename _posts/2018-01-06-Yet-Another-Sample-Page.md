@@ -11,14 +11,15 @@ En este writeup, exploramos la máquina Cicada de Hack The Box, donde explotamos
 Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.
   2. Escanear los servicios en cada puerto que esté abierto.
-	```js
+	```bash
+
 		nmap -sCV -v 10.10.11.35 -Pn -T3
-	```
+	
 Como resultado encontramos esto:
   ```ruby
   
   Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
-	Starting Nmap 7.93 https://nmap.org at 2024-10-02 12:18 CEST
+	Starting Nmap 7.93 https:nmap.org at 2024-10-02 12:18 CEST
 	NSE: Loaded 155 scripts for scanning.
 	NSE: Script Pre-scanning.
 	Initiating NSE at 12:18
