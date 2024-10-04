@@ -15,10 +15,10 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
 		nmap -sCV -v 10.10.11.35 -Pn -T3
 	```
 Como resultado encontramos esto:
-  ```js
+  ```ruby
   
   Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
-	Starting Nmap 7.93 (https://nmap.org ) at 2024-10-02 12:18 CEST
+	Starting Nmap 7.93 https://nmap.org at 2024-10-02 12:18 CEST
 	NSE: Loaded 155 scripts for scanning.
 	NSE: Script Pre-scanning.
 	Initiating NSE at 12:18
@@ -197,6 +197,8 @@ Ahora una vez conseguido ese NTHash del usuario "Administrator" nos logueamos ut
 evil-winrm -i 10.10.11.35 -u administrator -H "NTHASHdeAdministator"
 ```
 Y ya encontrariamos la root flag.
+
 ![Texto altenativo](/assets/cicada9.png)
+
 
 PWNED!
