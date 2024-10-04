@@ -11,8 +11,8 @@ En este writeup, exploramos la máquina Cicada de Hack The Box, donde explotamos
 Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.
   2. Escanear los servicios en cada puerto que esté abierto.
-  ```js
-	 nmap -sCV -v 10.10.11.35 -Pn -T3
+	```js
+		nmap -sCV -v 10.10.11.35 -Pn -T3
 
 Como resultado encontramos esto:
   ```js
