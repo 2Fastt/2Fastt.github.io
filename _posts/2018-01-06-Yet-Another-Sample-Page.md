@@ -12,12 +12,12 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.
   2. Escanear los servicios en cada puerto que esté abierto.
   ```js
-  // Javascript code with syntax highlighting.
+  
   nmap -sCV -v 10.10.11.35 -Pn -T3
   ```
   Como resultado encontramos esto:
   ```js
-  // Javascript code with syntax highlighting.
+  
   Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
 	Starting Nmap 7.93 (https://nmap.org ) at 2024-10-02 12:18 CEST
 	NSE: Loaded 155 scripts for scanning.
@@ -91,20 +91,34 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
 El foothold en esta máquina es fácil. Vamos a probar un par de cosas:
 
 
-### [](#header-3)Header 3
+Vamos a intentar conectarnos con la herramienta NetExec mediante SMB con el usuario "guest" a ver si podemos:
 
 ```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
+netexec smb 10.10.11.35 -u 'guest' -p '
 ```
 
 ```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
+	[*] First time use detected
+	[*] Creating home directory structure
+	[*] Creating missing folder logs
+	[*] Creating missing folder modules
+	[*] Creating missing folder protocols
+	[*] Creating missing folder workspaces
+	[*] Creating missing folder obfuscated_scripts
+	[*] Creating missing folder screenshots
+	[*] Creating default workspace
+	[*] Initializing FTP protocol database
+	[*] Initializing LDAP protocol database
+	[*] Initializing MSSQL protocol database
+	[*] Initializing RDP protocol database
+	[*] Initializing SMB protocol database
+	[*] Initializing SSH protocol database
+	[*] Initializing VNC protocol database
+	[*] Initializing WINRM protocol database
+	[*] Initializing WMI protocol database
+	[*] Copying default configuration file
+	SMB         10.10.11.35     445    CICADA-DC        [*] Windows Server 2022 Build 20348 x64 (name:CICADA-DC) (domain:cicada.htb) (signing:True) (SMBv1:False)
+	SMB         10.10.11.35     445    CICADA-DC        [+] cicada.htb\guest:
 end
 ```
 

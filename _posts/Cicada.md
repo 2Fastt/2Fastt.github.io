@@ -2,10 +2,7 @@
 title: Cicada
 published: 03 Oct 2024
 ---
-
-Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
-
-[Link to another page](another-page).
+* * *
 
 En este writeup, exploramos la máquina Cicada de Hack The Box, donde explotamos Active Directory mediante la recopilación de información y la técnica Pass-the-Hash. Finalmente, logramos comprometer el dominio y extraer datos sensibles.
 
@@ -86,11 +83,13 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
   ```
 
   En especial encontramos un Active Directory (CICADA-DC.cicada.htb)
-## [](#header-2)Header 2
 
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
+* * *
+
+# [](#header-1)Foothold
+
+El foothold en esta máquina es fácil. Vamos a probar un par de cosas:
+
 
 ### [](#header-3)Header 3
 
@@ -121,14 +120,6 @@ end
 2.  This is an ordered list following a header.
 3.  This is an ordered list following a header.
 
-###### [](#header-6)Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
 
 ### There's a horizontal rule below this.
 
