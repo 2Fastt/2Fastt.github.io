@@ -137,79 +137,38 @@ smb: \> ls
 ```
 Y encontramos un .txt en el que dentro de el se encuentra una credencial.
 ![Texto alternativo](/assets/cicada.png)
-#### [](#header-4)Header 4
 
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### [](#header-5)Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![](https://assets-cdn.github.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![](https://guides.github.com/activities/hello-world/branching.png)
-
-
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
+Ahora con los usuarios que encontramos en SidTypeUser con este comando:
+```js
+cme smb 10.10.11.35 -u 'guest' -p '' --rid-brute | grep SidTypeUser
 ```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
+Lo metemos en un archivo y aplicamos fuerza bruta para probar esa credencial con todos los usuarios que hemos encontrado:
+```js
+netexec smb 10.10.11.35 -u users.list -p 'Credencial'
 ```
+Y vemos que esa credencial coincide con el usuario "michael".
+![Texto alternativo](/assets/cicada2.png)
 
+Ahora con dumpear toda la información que podamos logueados como este usuario:
+```js
+ldapdomaindump ldap:/10.10.11.35 -u 'cicada.htb\michael.wrightson' -p "Credencial"
 ```
-The final element.
+![Texto alternativo](/assets/cicada3.png)
+Y mirando entre estos archivos, encontramos otra credencial, en este caso de el usuario "david" dentro del archivo (domain_users.grep).
+
+Esta credencial y usuario nos va a permitir acceder a los archivos que se encuentra dentro de la carpeta DEV, ya que con el usuario "michael" no podía acceder.
+![Texto alternativo](/assets/cicada4.png)
+![Texto altenativo](/assets/cicada5.png)
+
+Encontramos otra credencial dentro de ese archivo .ps1
+Asique ahora mediante evil-winrm nos vamos a conectar al AD en busca de la user flag.
+```js
+evil-winrm -i 'cicada.htb' -u 'emily.oscars' -p 'Credencial'
 ```
+Y ya estamos dentro:
+![Texto altenativo](/assets/cicada6.png)
+Si buscamos un poco por los directorios, encontramos la user flag:
+![Texto altenativo](/assets/cicada7.png)
+
+# [](#header-1)Escalada de Privilegios
+
