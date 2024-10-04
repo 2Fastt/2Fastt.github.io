@@ -12,13 +12,9 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.
   2. Escanear los servicios en cada puerto que esté abierto.
   ```js
-❯ nmap -sCV -v 10.10.11.35 -Pn -T3
-```
-  ```js
-  
-  nmap -sCV -v 10.10.11.35 -Pn -T3
-  ```
-  Como resultado encontramos esto:
+	 nmap -sCV -v 10.10.11.35 -Pn -T3
+
+Como resultado encontramos esto:
   ```js
   
   Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
@@ -83,7 +79,7 @@ Empezaré por scanear todos los protocolos en la máquina objetivo:
 	464/tcp  open  kpasswd5?
 	593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
 	636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: cicada.htb0., Site: Default-First-Site-Name)
-  ```
+```
 
   En especial encontramos un Active Directory (CICADA-DC.cicada.htb)
 
