@@ -9,21 +9,15 @@ title: Archive
     <!-- Especifica manualmente el año aquí -->
     <h3>2024</h3>
 
-    {%for post in site.posts %}
-      {% unless post.next %}
-        <ul>
-      {% else %}
-        <!-- Cambia manualmente el año donde lo necesites -->
-        <h3>2024</h3>
-        <ul>
-      {% endunless %}
-        <li><time>{{ post.date | date:"%d %b" }} - </time>
-          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-            {{ post.title }}
-          </a>
-        </li>
-    {% endfor %}
+    <ul>
+      <!-- Aquí pones manualmente la fecha del post -->
+      <li><time>4 Oct - </time>
+        <a href="{{ site.baseurl }}/post-url-1">
+          Título del Post 1
+        </a>
+      </li>
     </ul>
+
 
   {% endif %}
 </section>
