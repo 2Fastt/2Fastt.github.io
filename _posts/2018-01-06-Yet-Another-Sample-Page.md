@@ -6,7 +6,7 @@ title: Cicada
 
 En este writeup, exploramos la máquina Cicada de Hack The Box, donde explotamos Active Directory mediante la recopilación de información y la técnica Pass-the-Hash. Finalmente, logramos comprometer el dominio y extraer datos sensibles.
 
-# [](#header-1)RECONOCIMIENTO
+# RECONOCIMIENTO
 
 Empezaré por scanear todos los protocolos en la máquina objetivo:
   1. Escanear los puertos abiertos.

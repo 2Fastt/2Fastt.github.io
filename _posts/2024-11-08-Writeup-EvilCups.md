@@ -1,7 +1,10 @@
 ---
+
 title: EvilCups
 published: True
+
 ---
+
 * * *
 
 En este writeup, exploramos la máquina **EvilCups** de Hack The Box, donde explotamos múltiples vulnerabilidades para escalar privilegios y comprometer el sistema. Utilizamos técnicas como la **enumeración de servicios expuestos**, la explotación de **vulnerabilidades recientemente publicadas de CUPS**,etc...
