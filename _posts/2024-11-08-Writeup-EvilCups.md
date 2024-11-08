@@ -1,6 +1,6 @@
 ---
 
-title: EvilCups
+title: Writeup EvilCups
 published: True
 
 ---
