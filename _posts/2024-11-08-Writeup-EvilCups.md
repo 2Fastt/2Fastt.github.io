@@ -98,4 +98,5 @@ PWNED!
 *Documentación de aporte*
 
 https://www.cups.org/doc/spec-design.html
+
 https://github.com/AxthonyV/CVE-2024-47176
