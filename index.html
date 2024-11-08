@@ -17,11 +17,9 @@ layout: default
   {% for post in paginator.posts %}
     <li>
       <h2>
-        {% if post.title == "EvilCups" %}
-          <!-- Enlace directo a evilcups.md -->
           <a href="{{ site.baseurl }}/posts/EvilCups.md">{{ post.title }}</a>
       </h2>
-      <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%-d %b %Y" }}</time> 
+      <time datetime="2024-11-08">8 Nov 2024</time> 
       <p>{{ post.content | strip_html | truncatewords:50 }}</p>
     </li>
   {% endfor %}
