@@ -11,12 +11,13 @@ En este writeup, exploramos la máquina **EvilCups** de Hack The Box, donde expl
 
 **CUPS** es un sistema de impresión utilizado en sistemas operativos UNIX, que permite a los usuarios configurar y gestionar impresoras locales y en red mediante el uso de controladores.
 
-# [](#header-1)RECONOCIMIENTO
+# RECONOCIMIENTO
 Realizamos un escaneo con nmap:
 
 	❯ nmap -sCV -v 10.10.11.40 -Pn -T3
 	
 Como resultado encontramos esto:
+
   ```ruby
   
   PORT    STATE SERVICE VERSION
@@ -39,7 +40,7 @@ Aquí encontramos una versión:
 ![Texto alternativo](/assets/evilcups1.png)
 * * *
 
-# [](#header-1)Foothold
+# Foothold
 
 El foothold en esta máquina es fácil. Vamos a buscar vulnerabilidades en esa versión de CUPS:
 
