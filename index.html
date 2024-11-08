@@ -14,11 +14,19 @@ layout: default
 
 
 <ul>
-    {% for post in paginator.posts %}
-      <li>
-          <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-          <time datetime="2024-10-04">8 Nov 2024</time> 
-          <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-      </li>
-    {% endfor %}
+  {% for post in paginator.posts %}
+    <li>
+      <h2>
+        {% if post.title == "EvilCups" %}
+          <!-- Enlace directo a evilcups.md -->
+          <a href="{{ site.baseurl }}/posts/EvilCups.md">{{ post.title }}</a>
+        {% else %}
+          <!-- Enlace normal para otras publicaciones -->
+          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a>
+        {% endif %}
+      </h2>
+      <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%-d %b %Y" }}</time> 
+      <p>{{ post.content | strip_html | truncatewords:50 }}</p>
+    </li>
+  {% endfor %}
 </ul>
