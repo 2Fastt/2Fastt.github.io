@@ -13,14 +13,3 @@ layout: default
 </ul>
 
 
-<ul>
-  {% for post in paginator.posts %}
-    <li>
-      <h2>
-          <a href="{{ site.baseurl }}/EvilCups.md">{{ post.title }}</a>
-      </h2>
-      <time datetime="2024-11-08">8 Nov 2024</time> 
-      <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-    </li>
-  {% endfor %}
-</ul>
