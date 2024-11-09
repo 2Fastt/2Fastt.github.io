@@ -96,7 +96,7 @@ Una vez encontrada la contraseña de root vamos a proceder mediante SSH a conect
 
 PWNED!
 
-*Documentación de aporte*
+# Documentación de aporte
 
 https://www.cups.org/doc/spec-design.html
 
